@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.training.newbee.operation.updatepriceoperation" version="1.0">
+
+  <extension point="operations" target="org.nuxeo.ecm.core.operation.OperationServiceComponent">
+    <operation class="org.nuxeo.training.newbee.UpdatePriceOperation"/>
+  </extension>
+
+</component>

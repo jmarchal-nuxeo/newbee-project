@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.training.newbee.ProductService.test"
+	version="1.0">
+
+	<extension target="org.nuxeo.training.newbee.ProductService"
+		point="plugins">
+		<plugin name="ProductPriceValue" docType="Product" value="100" />
+	</extension>
+
+</component>

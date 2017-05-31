@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.training.newbee.ProductService"
+	version="1.0">
+
+	<implementation class="org.nuxeo.training.newbee.ProductServiceImpl" />
+
+	<service>
+		<provide interface="org.nuxeo.training.newbee.ProductService" />
+	</service>
+
+	<extension-point name="plugins">
+		<object class="org.nuxeo.training.newbee.ProductExtensionDescriptor" />
+	</extension-point>
+
+</component>
