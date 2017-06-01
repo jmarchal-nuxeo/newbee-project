@@ -11,7 +11,6 @@ import org.nuxeo.ecm.core.test.CoreFeature;
 import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
-import org.nuxeo.training.newbee.ProductAdapter;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
@@ -22,18 +21,17 @@ public class TestProductAdapter {
 
 	@Test
 	public void shouldCallTheAdapter() {
-		String doctype = "Product";
-		String testTitle = "My Adapter Title";
-
-		DocumentModel doc = session.createDocumentModel("/", "test-adapter", doctype);
+		DocumentModel doc = session.createDocumentModel("/", "test-adapter", "Product");
 		ProductAdapter adapter = doc.getAdapter(ProductAdapter.class);
-		adapter.setTitle(testTitle);
+		adapter.create(); // to place here otherwise product.sold is not default valued
+		adapter.setTitle("My Adapter Title");
 		adapter.setPrice(9.99d);
-		adapter.create();
+		adapter.setDistributorName("Distributor");
 		session.save();
 
 		Assert.assertNotNull(adapter);
-		Assert.assertEquals(testTitle, adapter.getTitle());
+		Assert.assertEquals("My Adapter Title", adapter.getTitle());
 		Assert.assertEquals(9.99d, adapter.getPrice(), 1e-15);
+		Assert.assertTrue(adapter.isSold());
 	}
 }

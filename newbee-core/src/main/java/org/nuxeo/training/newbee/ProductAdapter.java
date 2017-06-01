@@ -1,5 +1,8 @@
 package org.nuxeo.training.newbee;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
 import org.nuxeo.ecm.core.api.DocumentRef;
@@ -8,26 +11,20 @@ import org.nuxeo.ecm.core.api.DocumentRef;
  *
  */
 public class ProductAdapter {
+	private static final String NAME = "name";
+
 	protected final DocumentModel doc;
 
 	protected String titleXpath = "dc:title";
 	protected String descriptionXpath = "dc:description";
-	protected String priceXpath = "price";
+	protected String priceXpath = "sch_product:price";
+	protected String distributorXpath = "product:distributor";
+	protected String soldXpath = "product:sold";
 
 	public ProductAdapter(DocumentModel doc) {
 		this.doc = doc;
 	}
 
-	// Basic methods
-	//
-	// Note that we voluntarily expose only a subset of the DocumentModel API in
-	// this adapter.
-	// You may wish to complete it without exposing everything!
-	// For instance to avoid letting people change the document state using your
-	// adapter,
-	// because this would be handled through workflows / buttons / events in
-	// your application.
-	//
 	public void create() {
 		CoreSession session = doc.getCoreSession();
 		session.createDocument(doc);
@@ -79,8 +76,32 @@ public class ProductAdapter {
 	public Double getPrice() {
 		return (Double) doc.getPropertyValue(priceXpath);
 	}
+	
+	public String getTest() {
+		return (String) doc.getPropertyValue("product:test");
+	}
 
 	public void setPrice(Double price) {
 		doc.setPropertyValue(priceXpath, price);
 	}
+
+	@SuppressWarnings("unchecked")
+	public String getDistributorName() {
+		return (String) ((HashMap<String, Object>) doc.getPropertyValue(distributorXpath)).get(NAME);
+	}
+
+	public void setDistributorName(String name) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(NAME, name);
+		doc.setPropertyValue(distributorXpath, map);
+	}
+
+	public boolean isSold() {
+		return doc.getPropertyValue(soldXpath) == null ? false : (boolean) doc.getPropertyValue(soldXpath);
+	}
+
+	public void setSold(boolean sold) {
+		doc.setPropertyValue(soldXpath, sold);
+	}
+
 }

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.training.newbee.listener.onproductunsolded">
+
+  <extension target="org.nuxeo.ecm.core.event.EventServiceComponent" point="listener">
+    <listener postCommit="true" name="onproductunsolded"
+      class="org.nuxeo.training.newbee.OnProductUnsolded">
+        <event>documentModified</event>
+        <event>documentRemoved</event>
+    </listener>
+  </extension>
+
+</component>

@@ -8,4 +8,7 @@ Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.nuxeo.training.newbee.newbee-core;singleton=true
 Nuxeo-Component: OSGI-INF/updatepriceoperation-operation-contrib.xml,
  OSGI-INF/productservice-service.xml,
- OSGI-INF/org.nuxeo.training.newbeeproduct-adapter-contrib.xml
+ OSGI-INF/org.nuxeo.training.newbeeproduct-adapter-contrib.xml,
+ OSGI-INF/onproductunsolded-listener-contrib.xml,
+ OSGI-INF/org.nuxeo.training.newbeevisual-adapter-contrib.xml,
+ OSGI-INF/org.nuxeo.training.newbeefile-adapter-contrib.xml
