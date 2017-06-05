@@ -1,8 +1,10 @@
 package org.nuxeo.training.newbee;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jboss.seam.ScopeType;
@@ -19,86 +21,95 @@ import org.nuxeo.ecm.webapp.documentsLists.DocumentsListsManager;
 
 /**
  *
- * Code skeleton for a Seam bean that will manage a simple action.
- * This can be used to :
- *  - do a navigation
- *  - do some modification on the currentDocument (or other docs)
- *  - create new documents
- *   - send/retrive info from an external service
- *   - ...
+ * Code skeleton for a Seam bean that will manage a simple action. This can be
+ * used to : - do a navigation - do some modification on the currentDocument (or
+ * other docs) - create new documents - send/retrive info from an external
+ * service - ...
  */
 @Name("adddistributor")
 @Scope(ScopeType.EVENT)
 public class AddDistributorActionBean implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final Log log = LogFactory.getLog(AddDistributorActionBean.class);
+	private static final Log log = LogFactory.getLog(AddDistributorActionBean.class);
 
-    @In(create = true, required = false)
-    protected transient CoreSession documentManager;
+	@In(create = true, required = false)
+	protected transient CoreSession documentManager;
 
-    @In(create = true)
-    protected NavigationContext navigationContext;
+	@In(create = true)
+	protected NavigationContext navigationContext;
 
-    @In(create = true, required = false)
-    protected transient FacesMessages facesMessages;
+	@In(create = true, required = false)
+	protected transient FacesMessages facesMessages;
 
-    @In(create = true, required = false)
-    protected NuxeoPrincipal currentNuxeoPrincipal;
+	@In(create = true, required = false)
+	protected NuxeoPrincipal currentNuxeoPrincipal;
 
-    @In(create = true)
-    protected DocumentsListsManager documentsListsManager;
+	@In(create = true)
+	protected DocumentsListsManager documentsListsManager;
 
-    // Sample code to show how to retrieve the list of selected documents in the
-    // content listing view
-    protected List<DocumentModel> getCurrentlySelectedDocuments() {
+	// Sample code to show how to retrieve the list of selected documents in the
+	// content listing view
+	protected List<DocumentModel> getCurrentlySelectedDocuments() {
 
-        if (navigationContext.getCurrentDocument().isFolder()) {
-            return documentsListsManager.getWorkingList(DocumentsListsManager.CURRENT_DOCUMENT_SELECTION);
-        } else {
-            return null;
-        }
-    }
+		if (navigationContext.getCurrentDocument().isFolder()) {
+			return documentsListsManager.getWorkingList(DocumentsListsManager.CURRENT_DOCUMENT_SELECTION);
+		} else {
+			return null;
+		}
+	}
 
-    // This the method that will be called when the action button/link is
-    // clicked
-    public String doGet() {
-        String message = "Hello from AddDistributor : ";
-        List<DocumentModel> selectedDocs = getCurrentlySelectedDocuments();
-        if (selectedDocs != null) {
-            message = message + " (" + selectedDocs.size()
-                    + " documents selected)";
-        }
-        facesMessages.add(StatusMessage.Severity.INFO, message);
+	// This the method that will be called when the action button/link is
+	// clicked
+	public String doGet() {
+		List<DocumentModel> selectedDocs = getCurrentlySelectedDocuments();
 
-        // if you need to change the current document and let Nuxeo
-        // select the correct view
-        // you can use navigationContext and return the view
-        //
-        // return navigationContext.navigateToDocument(doc);
+		if (CollectionUtils.isEmpty(selectedDocs)) {
+			return null;
+		}
 
-        // If you want to explicitly go to a given view
-        // just return the outcome string associated to the view
-        //
-        // return "someView";
+		int updated = 0;
+		for (DocumentModel selectedDoc : selectedDocs) {
+			if (!"Product".equals(selectedDoc.getType())) {
+				continue;
+			}
 
-        // stay on the same view
-        return null;
-    }
+			ProductAdapter adapter = selectedDoc.getAdapter(ProductAdapter.class);
+			adapter.setDistributorName("Distributor " + new Date().getTime());
+			adapter.save();
+			updated++;
+		}
 
-    // this method will be called by the action system to determine if the
-    // action should be available
-    //
-    // the return value can depend on the context,
-    // you can use the navigationContext to get the currentDocument,
-    // currentWorkspace ...
-    // you can cache the value in a member variable as long as the Bean stays
-    // Event scoped
-    //
-    // if you don't need this, you should remove the filter in the associated
-    // action contribution
-    public boolean accept() {
-        return true;
-    }
+		facesMessages.add(StatusMessage.Severity.INFO, updated + " documents updated");
+
+		// if you need to change the current document and let Nuxeo
+		// select the correct view
+		// you can use navigationContext and return the view
+		//
+		// return navigationContext.navigateToDocument(doc);
+
+		// If you want to explicitly go to a given view
+		// just return the outcome string associated to the view
+		//
+		// return "someView";
+
+		// stay on the same view
+		return null;
+	}
+
+	// this method will be called by the action system to determine if the
+	// action should be available
+	//
+	// the return value can depend on the context,
+	// you can use the navigationContext to get the currentDocument,
+	// currentWorkspace ...
+	// you can cache the value in a member variable as long as the Bean stays
+	// Event scoped
+	//
+	// if you don't need this, you should remove the filter in the associated
+	// action contribution
+	public boolean accept() {
+		return true;
+	}
 }
