@@ -1,0 +1,9 @@
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Manifest-Version: 1.0
+Bundle-Vendor: org.nuxeo.training.newbee
+Bundle-Version: 1.0.0
+Bundle-Name: newbee-jsf
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: org.nuxeo.training.newbee.newbee-jsf;singleton=true
+Nuxeo-Component: OSGI-INF/adddistributor-action.xml

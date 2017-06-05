@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<component name="org.nuxeo.training.newbee.action.adddistributor" version="1.0">
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
+    point="actions">
+
+    <action id="action.adddistributor" link="${adddistributor.doGet}"
+      order="200" label="label.org.nuxeo.training.newbee.action.AddDistributor"
+      icon="/icons/AddDistributor-action.png">
+      <category>SUBVIEW_UPPER_LIST</category>
+      <filter-id>filter.AddDistributor</filter-id>
+    </action>
+  </extension>
+
+  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
+    point="filters">
+
+    <filter id="filter.adddistributor">
+      <rule grant="true">
+        <condition>${adddistributor.accept()}</condition>
+      </rule>
+    </filter>
+
+  </extension>
+
+</component>
