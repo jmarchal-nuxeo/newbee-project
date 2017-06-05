@@ -15,24 +15,24 @@ import org.nuxeo.training.newbee.VisualAdapter;
 
 @RunWith(FeaturesRunner.class)
 @Features(CoreFeature.class)
-@Deploy({"org.nuxeo.training.newbee.newbee-core"})
+@Deploy({ "org.nuxeo.training.newbee.newbee-core", "studio.extensions.jmarchal-SANDBOX" })
 public class TestVisualAdapter {
-  @Inject
-  CoreSession session;
+	@Inject
+	CoreSession session;
 
-  @Test
-  public void shouldCallTheAdapter() {
-    String doctype = "Visual";
-    String testTitle = "My Adapter Title";
+	@Test
+	public void shouldCallTheAdapter() {
+		String doctype = "Visual";
+		String testTitle = "My Adapter Title";
 
-    DocumentModel doc = session.createDocumentModel("/", "test-adapter", doctype);
-    VisualAdapter adapter = doc.getAdapter(VisualAdapter.class);
-    adapter.setTitle(testTitle);
-    adapter.create();
-    // session.save() is only needed in the context of unit tests
-    session.save();
+		DocumentModel doc = session.createDocumentModel("/", "test-adapter", doctype);
+		VisualAdapter adapter = doc.getAdapter(VisualAdapter.class);
+		adapter.setTitle(testTitle);
+		adapter.create();
+		// session.save() is only needed in the context of unit tests
+		session.save();
 
-    Assert.assertNotNull("The adapter can't be used on the " + doctype + " document type", adapter);
-    Assert.assertEquals("Document title does not match when using the adapter", testTitle, adapter.getTitle());
-  }
+		Assert.assertNotNull("The adapter can't be used on the " + doctype + " document type", adapter);
+		Assert.assertEquals("Document title does not match when using the adapter", testTitle, adapter.getTitle());
+	}
 }
