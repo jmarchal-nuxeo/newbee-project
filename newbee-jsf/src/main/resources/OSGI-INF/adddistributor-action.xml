@@ -1,26 +1,31 @@
 <?xml version="1.0"?>
-<component name="org.nuxeo.training.newbee.action.adddistributor" version="1.0">
+<component name="org.nuxeo.training.newbee.action.adddistributor"
+	version="1.0">
 
-  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
-    point="actions">
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
+		point="actions">
 
-    <action id="action.adddistributor" link="${adddistributor.doGet}"
-      order="200" label="label.org.nuxeo.training.newbee.action.AddDistributor"
-      icon="/icons/AddDistributor-action.png">
-      <category>SUBVIEW_UPPER_LIST</category>
-      <filter-id>filter.AddDistributor</filter-id>
-    </action>
-  </extension>
+		<action id="action.adddistributor" type="fancybox" order="200"
+			label="label.org.nuxeo.training.newbee.action.AddDistributor" icon="/icons/AddDistributor-action.png">
+			<category>CURRENT_SELECTION_LIST</category>
+			<filter-id>canAddDistributor</filter-id>
+			<properties>
+				<property name="include">add_distributor.xhtml</property>
+				<property name="ajaxSupport">true</property>
+			</properties>
+		</action>
 
-  <extension target="org.nuxeo.ecm.platform.actions.ActionService"
-    point="filters">
+	</extension>
 
-    <filter id="filter.adddistributor">
-      <rule grant="true">
-        <condition>${adddistributor.accept()}</condition>
-      </rule>
-    </filter>
+	<extension target="org.nuxeo.ecm.platform.actions.ActionService"
+		point="filters">
 
-  </extension>
+		<filter id="canAddDistributor">
+			<rule grant="true">
+				<condition>#{adddistributor.canAddDistributor()}</condition>
+			</rule>
+		</filter>
+
+	</extension>
 
 </component>

@@ -1,0 +1,35 @@
+<c:if test="true" xmlns:nxu="http://nuxeo.org/nxweb/util"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a4j="http://richfaces.org/a4j"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:nxh="http://nuxeo.org/nxweb/html"
+	xmlns:nxl="http://nuxeo.org/nxforms/layout"
+	xmlns:nxd="http://nuxeo.org/nxweb/document">
+
+	<div class="content">
+		<h:form id="addDistributorForm" execute="@this"
+			enctype="multipart/form-data" disableDoubleClickShield="true">
+
+			<p class="popUpDescription">
+				<h:outputText
+					value="#{messages['label.org.nuxeo.training.newbee.action.description']}" />
+			</p>
+
+			<h:inputText value="#{adddistributor.sellLocation}"
+				id="add_distributor_selllocation" />
+
+			<p class="buttonsGadget">
+
+				<a4j:commandButton value="Edit" action="#{adddistributor.submit()}"
+					styleClass="button"
+					oncomplete="jQuery.fancybox.close(); return true;" />
+
+				<button class="button"
+					onclick="jQuery.fancybox.close(); return false;">Cancel</button>
+			</p>
+		</h:form>
+	</div>
+</c:if>

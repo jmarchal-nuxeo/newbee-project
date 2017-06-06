@@ -49,8 +49,8 @@ public class AddDistributorActionBean implements Serializable {
 	@In(create = true)
 	protected DocumentsListsManager documentsListsManager;
 
-	// Sample code to show how to retrieve the list of selected documents in the
-	// content listing view
+	protected String sellLocation;
+
 	protected List<DocumentModel> getCurrentlySelectedDocuments() {
 
 		if (navigationContext.getCurrentDocument().isFolder()) {
@@ -60,9 +60,7 @@ public class AddDistributorActionBean implements Serializable {
 		}
 	}
 
-	// This the method that will be called when the action button/link is
-	// clicked
-	public String doGet() {
+	public String submit() {
 		List<DocumentModel> selectedDocs = getCurrentlySelectedDocuments();
 
 		if (CollectionUtils.isEmpty(selectedDocs)) {
@@ -77,39 +75,29 @@ public class AddDistributorActionBean implements Serializable {
 
 			ProductAdapter adapter = selectedDoc.getAdapter(ProductAdapter.class);
 			adapter.setDistributorName("Distributor " + new Date().getTime());
+			adapter.setDistributorSellLocation(getSellLocation() + " " + new Date().getTime());
 			adapter.save();
 			updated++;
 		}
 
 		facesMessages.add(StatusMessage.Severity.INFO, updated + " documents updated");
 
-		// if you need to change the current document and let Nuxeo
-		// select the correct view
-		// you can use navigationContext and return the view
-		//
-		// return navigationContext.navigateToDocument(doc);
-
-		// If you want to explicitly go to a given view
-		// just return the outcome string associated to the view
-		//
-		// return "someView";
-
-		// stay on the same view
 		return null;
 	}
 
-	// this method will be called by the action system to determine if the
-	// action should be available
-	//
-	// the return value can depend on the context,
-	// you can use the navigationContext to get the currentDocument,
-	// currentWorkspace ...
-	// you can cache the value in a member variable as long as the Bean stays
-	// Event scoped
-	//
-	// if you don't need this, you should remove the filter in the associated
-	// action contribution
+	public boolean canAddDistributor() {
+		return !getCurrentlySelectedDocuments().isEmpty();
+	}
+
 	public boolean accept() {
 		return true;
+	}
+
+	public String getSellLocation() {
+		return sellLocation;
+	}
+
+	public void setSellLocation(String sellLocation) {
+		this.sellLocation = sellLocation;
 	}
 }
