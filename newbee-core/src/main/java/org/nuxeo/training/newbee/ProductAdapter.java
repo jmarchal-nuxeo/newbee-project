@@ -1,7 +1,6 @@
 package org.nuxeo.training.newbee;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import org.nuxeo.ecm.core.api.CoreSession;
 import org.nuxeo.ecm.core.api.DocumentModel;
@@ -12,6 +11,7 @@ import org.nuxeo.ecm.core.api.DocumentRef;
  */
 public class ProductAdapter {
 	private static final String NAME = "name";
+	private static final String SELL_LOCATION = "sellLocation";
 
 	protected final DocumentModel doc;
 
@@ -76,7 +76,7 @@ public class ProductAdapter {
 	public Double getPrice() {
 		return (Double) doc.getPropertyValue(priceXpath);
 	}
-	
+
 	public String getTest() {
 		return (String) doc.getPropertyValue("product:test");
 	}
@@ -91,9 +91,20 @@ public class ProductAdapter {
 	}
 
 	public void setDistributorName(String name) {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-		map.put(NAME, name);
-		doc.setPropertyValue(distributorXpath, map);
+		HashMap<String, Object> distributor = getDistributor();
+		distributor.put(NAME, name);
+		doc.setPropertyValue(distributorXpath, distributor);
+	}
+
+	@SuppressWarnings("unchecked")
+	public String getDistributorSellLocation() {
+		return (String) ((HashMap<String, Object>) doc.getPropertyValue(distributorXpath)).get(SELL_LOCATION);
+	}
+
+	public void setDistributorSellLocation(String sellLocation) {
+		HashMap<String, Object> distributor = getDistributor();
+		distributor.put(SELL_LOCATION, sellLocation);
+		doc.setPropertyValue(distributorXpath, distributor);
 	}
 
 	public boolean isSold() {
@@ -102,6 +113,12 @@ public class ProductAdapter {
 
 	public void setSold(boolean sold) {
 		doc.setPropertyValue(soldXpath, sold);
+	}
+
+	@SuppressWarnings("unchecked")
+	private HashMap<String, Object> getDistributor() {
+		return doc.getProperty(distributorXpath) == null ? new HashMap<String, Object>()
+				: (HashMap<String, Object>) doc.getPropertyValue(distributorXpath);
 	}
 
 }

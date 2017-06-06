@@ -23,15 +23,24 @@ public class TestProductAdapter {
 	public void shouldCallTheAdapter() {
 		DocumentModel doc = session.createDocumentModel("/", "test-adapter", "Product");
 		ProductAdapter adapter = doc.getAdapter(ProductAdapter.class);
-		adapter.create(); // to place here otherwise product.sold is not default valued
+		adapter.create(); // to place here otherwise product.sold is not default
+							// valued
 		adapter.setTitle("My Adapter Title");
 		adapter.setPrice(9.99d);
 		adapter.setDistributorName("Distributor");
-		session.save();
+		adapter.setDistributorSellLocation("Sell location");
+		adapter.save();
+
+		doc = session.getDocument(doc.getRef());
+		Assert.assertEquals("My Adapter Title", (String) doc.getPropertyValue("dc:title"));
+
+		adapter = doc.getAdapter(ProductAdapter.class);
 
 		Assert.assertNotNull(adapter);
 		Assert.assertEquals("My Adapter Title", adapter.getTitle());
 		Assert.assertEquals(9.99d, adapter.getPrice(), 1e-15);
 		Assert.assertTrue(adapter.isSold());
+		Assert.assertEquals("Distributor", adapter.getDistributorName());
+		Assert.assertEquals("Sell location", adapter.getDistributorSellLocation());
 	}
 }

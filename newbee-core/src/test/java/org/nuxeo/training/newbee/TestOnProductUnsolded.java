@@ -29,19 +29,15 @@ import org.nuxeo.ecm.core.event.EventProducer;
 import org.nuxeo.ecm.core.event.EventService;
 import org.nuxeo.ecm.core.event.impl.DocumentEventContext;
 import org.nuxeo.ecm.core.event.impl.EventListenerDescriptor;
-import org.nuxeo.ecm.platform.test.PlatformFeature;
 import org.nuxeo.ecm.platform.usermanager.UserManager;
 import org.nuxeo.runtime.api.Framework;
-import org.nuxeo.runtime.test.runner.Deploy;
 import org.nuxeo.runtime.test.runner.Features;
 import org.nuxeo.runtime.test.runner.FeaturesRunner;
 
 import com.google.inject.Inject;
 
 @RunWith(FeaturesRunner.class)
-@Features({ PlatformFeature.class })
-@Deploy({ "org.nuxeo.training.newbee.newbee-core", "studio.extensions.jmarchal-SANDBOX",
-		"org.nuxeo.ecm.platform.collections.core" })
+@Features({ ProductFeature.class })
 public class TestOnProductUnsolded {
 
 	protected final List<String> events = Arrays.asList("productUnsolded");
@@ -150,7 +146,8 @@ public class TestOnProductUnsolded {
 		Assert.assertEquals("Administrator", product.getPropertyValue("dc:creator"));
 		Assert.assertEquals("Administrator", visual.getPropertyValue("dc:creator"));
 		Assert.assertEquals(Access.GRANT, visualsFolder.getACP().getAccess("Administrator", "Read"));
-		//KO Assert.assertEquals(Access.GRANT, visualsFolder.getACP().getAccess("user1", "Read"));
+		// KO Assert.assertEquals(Access.GRANT,
+		// visualsFolder.getACP().getAccess("user1", "Read"));
 		Assert.assertEquals(Access.GRANT, trash.getACP().getAccess("Administrator", "Read"));
 		Assert.assertEquals(Access.UNKNOWN, trash.getACP().getAccess("user1", "Read"));
 	}
