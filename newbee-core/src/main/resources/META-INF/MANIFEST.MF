@@ -6,6 +6,8 @@ Bundle-Version: 1.0.0
 Bundle-Name: newbee-core
 Bundle-ManifestVersion: 2
 Bundle-SymbolicName: org.nuxeo.training.newbee.newbee-core;singleton=true
+Require-Bundle: org.nuxeo.ecm.webengine.core
+Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule;name=ProductWebModule;extends=base;package=org/nuxeo/training/newbee
 Nuxeo-Component: OSGI-INF/updatepriceoperation-operation-contrib.xml,
  OSGI-INF/productservice-service.xml,
  OSGI-INF/org.nuxeo.training.newbeeproduct-adapter-contrib.xml,

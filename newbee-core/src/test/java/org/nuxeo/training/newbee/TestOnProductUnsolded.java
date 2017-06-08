@@ -132,7 +132,6 @@ public class TestOnProductUnsolded {
 		visual = session.getDocument(new IdRef(visual.getId()));
 		collectionAdapter = product.getAdapter(Collection.class);
 		Assert.assertEquals(0, collectionAdapter.getCollectedDocumentIds().size());
-
 		Assert.assertEquals(0, session.getFiles(visualsFolder.getRef()).size());
 		Assert.assertEquals(1, session.getFiles(trash.getRef()).size());
 		Assert.assertEquals(trash.getPath().lastSegment(), visual.getPath().segment(0));
@@ -155,10 +154,11 @@ public class TestOnProductUnsolded {
 	@Ignore
 	@Test
 	public void testACL2() throws Exception {
-
+		session.close();
 		session = CoreInstance.openCoreSession(session.getRepositoryName(), "user1");
 		DocumentModel visual2 = session.createDocumentModel(visualsFolder.getPathAsString(), "My visual 2", "Visual");
 		visual2 = session.createDocument(visual2);
+		session.save();
 
 		Assert.assertEquals("user1", visual2.getPropertyValue("dc:creator"));
 		Assert.assertEquals(Access.GRANT, visual2.getACP().getAccess("Administrator", "Read"));
